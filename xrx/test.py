@@ -1,7 +1,7 @@
-from .events import event_stream, Key, apply_deadzone
+from .events import event_stream, Key, apply_deadzone, event_stream
 
 
-neutral = 'X1:     0  Y1:     0  X2:     0  Y2:     0  du:0 dd:0 dl:0 dr:0  back:0 guide:0 start:0  TL:0 TR:0  A:0 B:0 X:0 Y:0  LB:0 RB:0  LT:  0 RT:  0  '
+neutral = 'Axes:  0:     0  1:     0  2:     0  3:     0  4:     0  5:     0  6:     0  7:     0 Buttons:  0:off  1:off  2:off  3:off  4:off  5:off  6:off  7:off  8:off  9:off  10:off  11:off  12:off '
 
 
 def x_events(data_stream):
@@ -12,11 +12,13 @@ class TestXEvents:
     def test_emit_on_A_pressed(self):
         output = [
             neutral,
-            neutral.replace('A:0', 'A:1'),
+            neutral.replace(' 0:off', ' 0:on'),
         ]
         events = list(x_events(output))
-        event = events[0]
 
+        assert len(events) == 1
+
+        event = events[0]
         assert event.key == Key.A
         assert event.is_press()
 
@@ -24,11 +26,13 @@ class TestXEvents:
     def test_emit_on_B_pressed(self):
         output = [
             neutral,
-            neutral.replace('B:0', 'B:1'),
+            neutral.replace(' 1:off', ' 1:on'),
         ]
         events = list(x_events(output))
-        event = events[0]
 
+        assert len(events) == 1
+
+        event = events[0]
         assert event.key == Key.B
         assert event.is_press()
 
@@ -36,7 +40,7 @@ class TestXEvents:
     def test_emits_X1(self):
         output = [
             neutral,
-            neutral.replace('X1:     0', 'X1:  2272')
+            neutral.replace('0:     0', '0:  2272')
         ]
 
         events = list(x_events(output))

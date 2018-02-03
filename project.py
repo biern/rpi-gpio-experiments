@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 from rx.concurrency import ThreadPoolScheduler
 
 from xrx.stream import x_stream
-from xrx.events import Event, Key, xboxdrv_event_stream
+from xrx.events import Event, Key, xpad_event_stream
 
 
 class ServoControls:
@@ -109,7 +109,7 @@ try:
     main.setup()
 
     scheduler = ThreadPoolScheduler(2)
-    stream = x_stream(xboxdrv_event_stream(deadzone=0.3)).\
+    stream = x_stream(xpad_event_stream(deadzone=0.3)).\
         publish()
 
     xbox_servo = XboxServo(Key.X1, servo, reverse=False)
