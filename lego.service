@@ -1,0 +1,11 @@
+[Unit]
+Description=Lego robot
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/venv-gpio/bin/python /home/pi/rpi-gpio-experiments/project.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
